@@ -2,7 +2,9 @@
 
 作者：山猫
 
-[市场封面](https://github.com/smilemonk/shanmao-batch-generate-toonflow/blob/main/docs/cover.png) · [插件界面截图（示例数据）](https://github.com/smilemonk/shanmao-batch-generate-toonflow/blob/main/docs/screenshot.png)
+<!-- github-images:start -->
+![市场封面](docs/cover.png)
+<!-- github-images:end -->
 
 「批量生成」是一个 **Toonflow 画布节点插件**。安装后，在 Toonflow 画布中添加「批量生成」节点，就能挑选要生成的节点，按画布连线分批执行。
 
@@ -24,11 +26,18 @@
 
 **面板金额仅供参考，实际费用以供应商的最终结算为准。** 执行前请核对勾选清单、模型和参数。重新执行已有结果的节点可能覆盖结果并再次计费。
 
+<!-- github-images:start -->
+## 界面截图
+
+<img src="docs/screenshot.png" alt="插件运行界面，使用示例数据" width="420">
+
+<!-- github-images:end -->
+
 ## 安装
 
 1. 下载 [shanmaoBatchGenerate.umd.js](build/shanmaoBatchGenerate.umd.js)。
 2. 在 Toonflow 设置的插件管理中安装该文件。
-3. 打开画布，添加「批量生成」节点。默认宽 210 像素，右下角可拖拽调节。
+3. 打开画布，添加「批量生成」节点。默认宽 220 像素，右下角可拖拽调节。
 
 如果安装过 1.0.3 或更早的版本，新版使用更正后的节点标识。先把画布里的节点换成新版，再卸载旧版。
 

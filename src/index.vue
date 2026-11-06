@@ -418,7 +418,7 @@ onScopeDispose(() => {
 </template>
 
 <style>
-.nodeSkeleton.shanmao-batch-generate:not(.documentNode) { width: 210px; }
+.nodeSkeleton.shanmao-batch-generate:not(.documentNode) { width: 220px; }
 .shanmao-panel { display: flex; flex-direction: column; gap: 5px; padding: 2px; box-sizing: border-box; height: 100%; min-height: 0; font-size: 12px; color: var(--el-text-color-primary); }
 .shanmao-panel button, .shanmao-dialog button { font: inherit; cursor: pointer; }
 .shanmao-summary { display: flex; justify-content: space-between; gap: 4px; flex: none; font-size: 11px; color: var(--el-text-color-secondary); }
@@ -438,12 +438,11 @@ onScopeDispose(() => {
 .shanmao-row-state[data-state="failed"], .shanmao-row-state[data-state="blocked"], .shanmao-error { color: var(--el-color-danger, #d74747); }
 .shanmao-row-state[data-state="done"] { color: var(--el-color-success, #50923e); }
 .shanmao-empty { padding: 12px 0; text-align: center; color: var(--el-text-color-secondary); font-size: 11px; }
-.shanmao-filters { flex: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px 4px; }
-.shanmao-filters .shanmao-chip { gap: 3px; }
+.shanmao-filters { flex: none; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px clamp(7px, 5%, 12px); }
 .shanmao-chip { flex: none; display: inline-flex; gap: 4px; align-items: center; font-size: 11px; cursor: pointer; white-space: nowrap; }
 .shanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
-.shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.shanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; }
+.shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 6px; }
+.shanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; white-space: nowrap; }
 .shanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-secondary); overflow-wrap: anywhere; }
 .shanmao-quote b { font-size: 11px; }
 .shanmao-quote .shanmao-amount { color: var(--el-color-danger, #f56c6c); }
