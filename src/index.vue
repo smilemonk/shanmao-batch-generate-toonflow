@@ -364,7 +364,7 @@ onScopeDispose(() => {
         </label>
         <strong>执行前请认真核对勾选清单</strong>
       </div>
-      <div class="shanmao-quote">预计生成费用 <b :class="{ 'shanmao-amount': quoteLabel.startsWith('约 ') }">{{ quoteLabel }}</b></div>
+      <div class="shanmao-quote">预计生成费用：<b :class="{ 'shanmao-amount': quoteLabel.startsWith('约 ') }">{{ quoteLabel }}</b></div>
       <div class="shanmao-progress" role="progressbar" :aria-valuenow="runIds.length ? Math.round(progress * 100 / runIds.length) : 0">
         <span :style="{ width: runIds.length ? `${progress * 100 / runIds.length}%` : '0%' }" />
       </div>
