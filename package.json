@@ -1,0 +1,10 @@
+{
+  "name": "sanmao-batch-generate",
+  "version": "1.0.3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun scripts/build.ts",
+    "test": "bun test"
+  }
+}
