@@ -24,9 +24,11 @@
 
 ## 安装
 
-1. 下载 [sanmaoBatchGenerate.umd.js](build/sanmaoBatchGenerate.umd.js)。
+1. 下载 [shanmaoBatchGenerate.umd.js](build/shanmaoBatchGenerate.umd.js)。
 2. 在 Toonflow 设置的插件管理中安装该文件。
 3. 打开画布，添加「批量生成」节点。默认宽 210 像素，右下角可拖拽调节。
+
+如果安装过 1.0.3 或更早的版本，新版使用更正后的节点标识。先把画布里的节点换成新版，再卸载旧版。
 
 ## 开发
 
@@ -39,6 +41,6 @@ bun run build
 bun test
 ```
 
-构建脚本默认查找 macOS 上 Toonflow 已准备的 SDK。其他安装位置可设置 `TOONFLOW_PLUGIN_SDK`，指向包含 `pluginBuild.js` 和 `thirdPartyNotices/` 的官方 SDK 目录。发布文件为 `build/sanmaoBatchGenerate.umd.js`，插件标识为 `sanmaoBatchGenerate`。SDK 许可证声明随安装包提供。
+构建脚本默认查找 macOS 上 Toonflow 已准备的 SDK。其他安装位置可设置 `TOONFLOW_PLUGIN_SDK`，指向包含 `pluginBuild.js` 和 `thirdPartyNotices/` 的官方 SDK 目录。发布文件为 `build/shanmaoBatchGenerate.umd.js`，插件标识为 `shanmaoBatchGenerate`。SDK 许可证声明随安装包提供。
 
 Agent 可用 `inspectQueue` 读取计划。执行入口 `startQueue` 要求明确提供非空的 `nodeIds` 和 `confirm: true`。

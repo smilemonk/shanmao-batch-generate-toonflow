@@ -1,6 +1,6 @@
 {
-  "name": "sanmao-batch-generate",
-  "version": "1.0.3",
+  "name": "shanmao-batch-generate",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "scripts": {

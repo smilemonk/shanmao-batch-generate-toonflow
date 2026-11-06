@@ -1,6 +1,6 @@
 {
   "type": "node",
-  "name": "sanmaoBatchGenerate",
+  "name": "shanmaoBatchGenerate",
   "displayName": "批量生成",
   "author": "山猫",
   "github": "https://github.com/smilemonk/toonflow-batch-generate",

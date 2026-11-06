@@ -23,9 +23,9 @@ const kinds = ["video", "image", "audio", "text"] as const;
 const captions = { video: "视频", image: "图片", audio: "音频", text: "文本" };
 const sortOrder: Kind[] = ["video", "image", "text", "audio"];
 const collator = new Intl.Collator("zh-Hans-CN", { numeric: true });
-type PanelSettings = { sanmaoBatchGenerate?: { expanded: boolean } };
+type PanelSettings = { shanmaoBatchGenerate?: { expanded: boolean } };
 const panelSettings = () => node.data as typeof node.data & PanelSettings;
-const expanded = ref(panelSettings().sanmaoBatchGenerate?.expanded !== false);
+const expanded = ref(panelSettings().shanmaoBatchGenerate?.expanded !== false);
 const checked = ref(new Set<string>());
 const registryVersion = ref(getTools().version);
 const jobs = ref<Record<string, QueueResult>>({});
@@ -103,7 +103,7 @@ function toggleGroup(group: Kind | "new") {
 }
 function toggleExpanded() {
   expanded.value = !expanded.value;
-  panelSettings().sanmaoBatchGenerate = { expanded: expanded.value };
+  panelSettings().shanmaoBatchGenerate = { expanded: expanded.value };
 }
 function checkedInput(event: Event) { return (event.target as HTMLInputElement).checked; }
 function displayStatus(row: Row) {
@@ -332,82 +332,82 @@ onScopeDispose(() => {
 </script>
 
 <template>
-  <NodeSkeleton v-bind="nodeProps" class="sanmao-batch-generate">
-    <div ref="panel" class="sanmao-panel nopan nowheel">
-      <div class="sanmao-summary">
+  <NodeSkeleton v-bind="nodeProps" class="shanmao-batch-generate">
+    <div ref="panel" class="shanmao-panel nopan nowheel">
+      <div class="shanmao-summary">
         <span v-if="running">执行中 <b>{{ progress }} / {{ runIds.length }}</b></span>
         <span v-else><b>{{ rows.length }}</b> 个可执行 · 已选 <b>{{ selectedSummary }}</b></span>
-        <button class="sanmao-toggle nodrag" type="button" :aria-expanded="expanded" @click.stop="toggleExpanded">{{ expanded ? "收起" : "查看" }}</button>
+        <button class="shanmao-toggle nodrag" type="button" :aria-expanded="expanded" @click.stop="toggleExpanded">{{ expanded ? "收起" : "查看" }}</button>
       </div>
-      <div v-if="expanded" class="sanmao-list">
-        <label v-for="(row, index) in rows" :key="row.id" class="sanmao-row nodrag" :class="{ 'sanmao-unchecked': !checked.has(row.id) }">
+      <div v-if="expanded" class="shanmao-list">
+        <label v-for="(row, index) in rows" :key="row.id" class="shanmao-row nodrag" :class="{ 'shanmao-unchecked': !checked.has(row.id) }">
           <input type="checkbox" :checked="checked.has(row.id)" :disabled="running" :aria-label="row.label" @change="toggle(row.id, checkedInput($event))">
-          <span class="sanmao-index">{{ index + 1 }}</span>
-          <span class="sanmao-kind" :data-kind="row.kind">{{ captions[row.kind][0] }}</span>
-          <span class="sanmao-name" :title="[row.label, layout.get(row.id) && `第 ${layout.get(row.id)} 层`, row.model, row.params].filter(Boolean).join('\n')">{{ row.label }}</span>
-          <span class="sanmao-row-state" :data-state="jobs[row.id]?.state" :title="jobs[row.id]?.detail">{{ displayStatus(row) }}</span>
+          <span class="shanmao-index">{{ index + 1 }}</span>
+          <span class="shanmao-kind" :data-kind="row.kind">{{ captions[row.kind][0] }}</span>
+          <span class="shanmao-name" :title="[row.label, layout.get(row.id) && `第 ${layout.get(row.id)} 层`, row.model, row.params].filter(Boolean).join('\n')">{{ row.label }}</span>
+          <span class="shanmao-row-state" :data-state="jobs[row.id]?.state" :title="jobs[row.id]?.detail">{{ displayStatus(row) }}</span>
         </label>
-        <div v-if="!rows.length" class="sanmao-empty">这张画布上没有可执行的节点</div>
+        <div v-if="!rows.length" class="shanmao-empty">这张画布上没有可执行的节点</div>
       </div>
-      <div class="sanmao-filters">
-        <label v-for="kind in kinds" :key="kind" class="sanmao-chip nodrag">
+      <div class="shanmao-filters">
+        <label v-for="kind in kinds" :key="kind" class="shanmao-chip nodrag">
           <input type="checkbox" :checked="!!groups[kind].length && groupCount(kind) === groups[kind].length"
             :indeterminate.prop="groupCount(kind) > 0 && groupCount(kind) < groups[kind].length" :disabled="running" @change="toggleGroup(kind)">
           <span>{{ captions[kind] }}</span>
         </label>
       </div>
-      <div class="sanmao-notice">
-        <label class="sanmao-chip nodrag">
+      <div class="shanmao-notice">
+        <label class="shanmao-chip nodrag">
           <input type="checkbox" :checked="!!groups.new.length && groupCount('new') === groups.new.length"
             :indeterminate.prop="groupCount('new') > 0 && groupCount('new') < groups.new.length" :disabled="running" @change="toggleGroup('new')">
           <span>未生成</span>
         </label>
         <strong>执行前请认真核对勾选清单</strong>
       </div>
-      <div class="sanmao-quote">预计生成费用 <b :class="{ 'sanmao-amount': quoteLabel.startsWith('约 ') }">{{ quoteLabel }}</b></div>
-      <div class="sanmao-progress" role="progressbar" :aria-valuenow="runIds.length ? Math.round(progress * 100 / runIds.length) : 0">
+      <div class="shanmao-quote">预计生成费用 <b :class="{ 'shanmao-amount': quoteLabel.startsWith('约 ') }">{{ quoteLabel }}</b></div>
+      <div class="shanmao-progress" role="progressbar" :aria-valuenow="runIds.length ? Math.round(progress * 100 / runIds.length) : 0">
         <span :style="{ width: runIds.length ? `${progress * 100 / runIds.length}%` : '0%' }" />
       </div>
-      <div class="sanmao-footer">
-        <button class="sanmao-run nodrag" type="button" :disabled="running || !selected.length" @click.stop="startPanel">
+      <div class="shanmao-footer">
+        <button class="shanmao-run nodrag" type="button" :disabled="running || !selected.length" @click.stop="startPanel">
           {{ running ? '执行中…' : selected.length ? `执行 ${selected.length} 个` : '先勾选节点' }}
         </button>
-        <button v-if="running" class="sanmao-stop nodrag" type="button" @click.stop="stop">停止</button>
+        <button v-if="running" class="shanmao-stop nodrag" type="button" @click.stop="stop">停止</button>
       </div>
-      <div v-if="status" class="sanmao-status" :class="{ 'sanmao-error': failed }" aria-live="polite">{{ status }}</div>
+      <div v-if="status" class="shanmao-status" :class="{ 'shanmao-error': failed }" aria-live="polite">{{ status }}</div>
     </div>
     <Teleport v-if="toolbar" :to="toolbar">
-      <button type="button" class="el-button sanmao-selection-action" :disabled="running"
+      <button type="button" class="el-button shanmao-selection-action" :disabled="running"
         @pointerdown.stop @mousedown.stop @click.stop="showCanvasSelection">批量生成</button>
     </Teleport>
     <Teleport to="body">
-      <dialog ref="dialog" class="sanmao-dialog" aria-label="核对批量生成清单" @click.self="dialog?.close()">
-        <div class="sanmao-dialog-body">
-          <strong class="sanmao-warning">批量生成会消耗额度</strong>
+      <dialog ref="dialog" class="shanmao-dialog" aria-label="核对批量生成清单" @click.self="dialog?.close()">
+        <div class="shanmao-dialog-body">
+          <strong class="shanmao-warning">批量生成会消耗额度</strong>
           <p>请核对节点的模型、参数和已有结果，再执行。</p>
-          <label v-if="dialogRows.length" class="sanmao-dialog-item">
+          <label v-if="dialogRows.length" class="shanmao-dialog-item">
             <input type="checkbox" :checked="dialogSelected.length === dialogRows.length"
               :indeterminate.prop="dialogSelected.length > 0 && dialogSelected.length < dialogRows.length" @change="toggleDialogAll(checkedInput($event))">
             全选（{{ dialogSelected.length }} / {{ dialogRows.length }}）
           </label>
-          <div class="sanmao-dialog-list">
-            <label v-for="row in dialogRows" :key="row.id" class="sanmao-dialog-item">
+          <div class="shanmao-dialog-list">
+            <label v-for="row in dialogRows" :key="row.id" class="shanmao-dialog-item">
               <input type="checkbox" :checked="dialogChecks.has(row.id)" @change="toggleDialog(row.id, checkedInput($event))">
               <span>
                 <span>{{ captions[row.kind] }} · {{ row.label }}</span>
                 <small>{{ [row.model, row.params, row.hasResult ? '已有结果 · 执行将覆盖' : ''].filter(Boolean).join(' · ') }}</small>
               </span>
             </label>
-            <div v-for="name in ignored" :key="name" class="sanmao-dialog-muted">{{ name }} · 无生成动作</div>
-            <div v-if="!dialogRows.length && !ignored.length" class="sanmao-dialog-muted">请先框选画布节点</div>
+            <div v-for="name in ignored" :key="name" class="shanmao-dialog-muted">{{ name }} · 无生成动作</div>
+            <div v-if="!dialogRows.length && !ignored.length" class="shanmao-dialog-muted">请先框选画布节点</div>
           </div>
-          <p v-if="missingUpstream" class="sanmao-warning">有 {{ missingUpstream }} 个节点的上游尚无结果且未勾选。</p>
-          <label v-if="dialogSelected.length >= 15" class="sanmao-dialog-item sanmao-warning">
+          <p v-if="missingUpstream" class="shanmao-warning">有 {{ missingUpstream }} 个节点的上游尚无结果且未勾选。</p>
+          <label v-if="dialogSelected.length >= 15" class="shanmao-dialog-item shanmao-warning">
             <input v-model="dialogConfirmed" type="checkbox"> 本次节点较多，我已核对清单
           </label>
-          <div class="sanmao-dialog-actions">
-            <button type="button" class="sanmao-stop" @click="dialog?.close()">取消</button>
-            <button type="button" class="sanmao-run" :disabled="!dialogSelected.length || (dialogSelected.length >= 15 && !dialogConfirmed)" @click="acceptDialog">
+          <div class="shanmao-dialog-actions">
+            <button type="button" class="shanmao-stop" @click="dialog?.close()">取消</button>
+            <button type="button" class="shanmao-run" :disabled="!dialogSelected.length || (dialogSelected.length >= 15 && !dialogConfirmed)" @click="acceptDialog">
               {{ dialogSelected.length ? `开始执行 ${dialogSelected.length} 个` : '先勾选节点' }}
             </button>
           </div>
@@ -418,51 +418,51 @@ onScopeDispose(() => {
 </template>
 
 <style>
-.nodeSkeleton.sanmao-batch-generate:not(.documentNode) { width: 210px; }
-.sanmao-panel { display: flex; flex-direction: column; gap: 5px; padding: 2px; box-sizing: border-box; height: 100%; min-height: 0; font-size: 12px; color: var(--el-text-color-primary); }
-.sanmao-panel button, .sanmao-dialog button { font: inherit; cursor: pointer; }
-.sanmao-summary { display: flex; justify-content: space-between; gap: 4px; flex: none; font-size: 11px; color: var(--el-text-color-secondary); }
-.sanmao-toggle { flex: none; padding: 0; border: 0; background: transparent; color: var(--el-color-success, #67c23a); }
-.sanmao-list { max-height: 300px; min-height: 0; overflow: auto; padding: 3px 0; border-block: 1px solid var(--el-border-color-lighter); }
-.sanmao-batch-generate.resized .sanmao-list { max-height: none; flex: 1 1 auto; }
-.sanmao-row { display: flex; align-items: center; gap: 5px; min-width: 0; padding: 2px 3px; font-size: 11px; line-height: 1.4; border-radius: 3px; }
-.sanmao-row:hover { background: var(--el-fill-color-lighter); }
-.sanmao-unchecked { opacity: .65; }
-.sanmao-index { flex: 0 0 14px; text-align: right; color: var(--el-text-color-secondary); }
-.sanmao-kind { display: inline-grid; place-items: center; flex: 0 0 14px; height: 14px; border-radius: 3px; background: #3984c4; color: white; font-size: 9px; }
-.sanmao-kind[data-kind="video"] { background: #a8661f; }
-.sanmao-kind[data-kind="audio"] { background: #547e2d; }
-.sanmao-kind[data-kind="text"] { background: #7658ba; }
-.sanmao-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sanmao-row-state { flex: none; max-width: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: var(--el-text-color-secondary); }
-.sanmao-row-state[data-state="failed"], .sanmao-row-state[data-state="blocked"], .sanmao-error { color: var(--el-color-danger, #d74747); }
-.sanmao-row-state[data-state="done"] { color: var(--el-color-success, #50923e); }
-.sanmao-empty { padding: 12px 0; text-align: center; color: var(--el-text-color-secondary); font-size: 11px; }
-.sanmao-filters { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 5px 12px; }
-.sanmao-chip { flex: none; display: inline-flex; gap: 4px; align-items: center; font-size: 11px; cursor: pointer; white-space: nowrap; }
-.sanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
-.sanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.sanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; }
-.sanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-secondary); overflow-wrap: anywhere; }
-.sanmao-quote b { font-size: 11px; }
-.sanmao-quote .sanmao-amount { color: var(--el-color-danger, #f56c6c); }
-.sanmao-progress { flex: none; height: 3px; overflow: hidden; background: var(--el-fill-color-dark, #e6e8eb); border-radius: 4px; }
-.sanmao-progress span { display: block; height: 100%; background: var(--el-color-primary, #409eff); }
-.sanmao-footer, .sanmao-dialog-actions { display: flex; gap: 6px; flex: none; }
-.sanmao-run, .sanmao-stop { min-height: 25px; border-radius: 5px; padding: 2px 10px; }
-.sanmao-run { flex: 1; color: white; background: var(--el-color-primary, #409eff); border: 0; }
-.sanmao-run:disabled { opacity: .5; cursor: not-allowed; }
-.sanmao-stop { background: var(--el-bg-color, white); color: var(--el-text-color-primary); border: 1px solid var(--el-border-color, #dcdfe6); }
-.sanmao-status { flex: none; font-size: 10px; overflow-wrap: anywhere; }
-.sanmao-dialog { width: min(450px, 84vw); padding: 16px; border: 1px solid var(--el-border-color, #dcdfe6); border-radius: 10px; background: var(--el-bg-color, white); color: var(--el-text-color-primary, #252525); font-size: 12px; }
-.sanmao-dialog::backdrop { background: #0006; }
-.sanmao-warning { color: var(--el-color-warning, #ad7317); font-weight: 700; }
-.sanmao-dialog p { margin: 6px 0 10px; }
-.sanmao-dialog-list { max-height: min(270px, 42vh); overflow-y: auto; margin: 6px 0; border-block: 1px solid var(--el-border-color-lighter, #eee); }
-.sanmao-dialog-item { display: flex; align-items: flex-start; gap: 6px; padding: 4px 0; overflow-wrap: anywhere; cursor: pointer; }
-.sanmao-dialog-item input { margin: 2px 0 0; }
-.sanmao-dialog-item small { display: block; color: var(--el-text-color-secondary, #777); }
-.sanmao-dialog-muted { color: var(--el-text-color-secondary, #777); padding: 4px 0; overflow-wrap: anywhere; }
-.sanmao-dialog-actions { justify-content: flex-end; margin-top: 8px; }
-.sanmao-dialog-actions .sanmao-run { flex: none; }
+.nodeSkeleton.shanmao-batch-generate:not(.documentNode) { width: 210px; }
+.shanmao-panel { display: flex; flex-direction: column; gap: 5px; padding: 2px; box-sizing: border-box; height: 100%; min-height: 0; font-size: 12px; color: var(--el-text-color-primary); }
+.shanmao-panel button, .shanmao-dialog button { font: inherit; cursor: pointer; }
+.shanmao-summary { display: flex; justify-content: space-between; gap: 4px; flex: none; font-size: 11px; color: var(--el-text-color-secondary); }
+.shanmao-toggle { flex: none; padding: 0; border: 0; background: transparent; color: var(--el-color-success, #67c23a); }
+.shanmao-list { max-height: 300px; min-height: 0; overflow: auto; padding: 3px 0; border-block: 1px solid var(--el-border-color-lighter); }
+.shanmao-batch-generate.resized .shanmao-list { max-height: none; flex: 1 1 auto; }
+.shanmao-row { display: flex; align-items: center; gap: 5px; min-width: 0; padding: 2px 3px; font-size: 11px; line-height: 1.4; border-radius: 3px; }
+.shanmao-row:hover { background: var(--el-fill-color-lighter); }
+.shanmao-unchecked { opacity: .65; }
+.shanmao-index { flex: 0 0 14px; text-align: right; color: var(--el-text-color-secondary); }
+.shanmao-kind { display: inline-grid; place-items: center; flex: 0 0 14px; height: 14px; border-radius: 3px; background: #3984c4; color: white; font-size: 9px; }
+.shanmao-kind[data-kind="video"] { background: #a8661f; }
+.shanmao-kind[data-kind="audio"] { background: #547e2d; }
+.shanmao-kind[data-kind="text"] { background: #7658ba; }
+.shanmao-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.shanmao-row-state { flex: none; max-width: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; color: var(--el-text-color-secondary); }
+.shanmao-row-state[data-state="failed"], .shanmao-row-state[data-state="blocked"], .shanmao-error { color: var(--el-color-danger, #d74747); }
+.shanmao-row-state[data-state="done"] { color: var(--el-color-success, #50923e); }
+.shanmao-empty { padding: 12px 0; text-align: center; color: var(--el-text-color-secondary); font-size: 11px; }
+.shanmao-filters { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 5px 12px; }
+.shanmao-chip { flex: none; display: inline-flex; gap: 4px; align-items: center; font-size: 11px; cursor: pointer; white-space: nowrap; }
+.shanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
+.shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.shanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; }
+.shanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-secondary); overflow-wrap: anywhere; }
+.shanmao-quote b { font-size: 11px; }
+.shanmao-quote .shanmao-amount { color: var(--el-color-danger, #f56c6c); }
+.shanmao-progress { flex: none; height: 3px; overflow: hidden; background: var(--el-fill-color-dark, #e6e8eb); border-radius: 4px; }
+.shanmao-progress span { display: block; height: 100%; background: var(--el-color-primary, #409eff); }
+.shanmao-footer, .shanmao-dialog-actions { display: flex; gap: 6px; flex: none; }
+.shanmao-run, .shanmao-stop { min-height: 25px; border-radius: 5px; padding: 2px 10px; }
+.shanmao-run { flex: 1; color: white; background: var(--el-color-primary, #409eff); border: 0; }
+.shanmao-run:disabled { opacity: .5; cursor: not-allowed; }
+.shanmao-stop { background: var(--el-bg-color, white); color: var(--el-text-color-primary); border: 1px solid var(--el-border-color, #dcdfe6); }
+.shanmao-status { flex: none; font-size: 10px; overflow-wrap: anywhere; }
+.shanmao-dialog { width: min(450px, 84vw); padding: 16px; border: 1px solid var(--el-border-color, #dcdfe6); border-radius: 10px; background: var(--el-bg-color, white); color: var(--el-text-color-primary, #252525); font-size: 12px; }
+.shanmao-dialog::backdrop { background: #0006; }
+.shanmao-warning { color: var(--el-color-warning, #ad7317); font-weight: 700; }
+.shanmao-dialog p { margin: 6px 0 10px; }
+.shanmao-dialog-list { max-height: min(270px, 42vh); overflow-y: auto; margin: 6px 0; border-block: 1px solid var(--el-border-color-lighter, #eee); }
+.shanmao-dialog-item { display: flex; align-items: flex-start; gap: 6px; padding: 4px 0; overflow-wrap: anywhere; cursor: pointer; }
+.shanmao-dialog-item input { margin: 2px 0 0; }
+.shanmao-dialog-item small { display: block; color: var(--el-text-color-secondary, #777); }
+.shanmao-dialog-muted { color: var(--el-text-color-secondary, #777); padding: 4px 0; overflow-wrap: anywhere; }
+.shanmao-dialog-actions { justify-content: flex-end; margin-top: 8px; }
+.shanmao-dialog-actions .shanmao-run { flex: none; }
 </style>
