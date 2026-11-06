@@ -3,6 +3,6 @@
   "name": "shanmaoBatchGenerate",
   "displayName": "批量生成",
   "author": "山猫",
-  "github": "https://github.com/smilemonk/toonflow-batch-generate",
+  "github": "https://github.com/smilemonk/shanmao-batch-generate-toonflow",
   "description": "按画布依赖分层批量生成视频、图片、音频和文本，先勾选，再执行。"
 }
