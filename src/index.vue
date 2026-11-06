@@ -419,13 +419,13 @@ onScopeDispose(() => {
 
 <style>
 .nodeSkeleton.shanmao-batch-generate:not(.documentNode) { width: 220px; }
-.shanmao-panel { display: flex; flex-direction: column; gap: 5px; padding: 2px; box-sizing: border-box; height: 100%; min-height: 0; font-size: 12px; color: var(--el-text-color-primary); }
+.shanmao-panel { --shanmao-checkbox-inset: 7px; display: flex; flex-direction: column; gap: 5px; padding: 2px; box-sizing: border-box; height: 100%; min-height: 0; font-size: 12px; color: var(--el-text-color-primary); }
 .shanmao-panel button, .shanmao-dialog button { font: inherit; cursor: pointer; }
 .shanmao-summary { display: flex; justify-content: space-between; gap: 4px; flex: none; font-size: 11px; color: var(--el-text-color-secondary); }
 .shanmao-toggle { flex: none; padding: 0; border: 0; background: transparent; color: var(--el-color-success, #67c23a); }
 .shanmao-list { max-height: 300px; min-height: 0; overflow: auto; padding: 3px 0; border-block: 1px solid var(--el-border-color-lighter); }
 .shanmao-batch-generate.resized .shanmao-list { max-height: none; flex: 1 1 auto; }
-.shanmao-row { display: flex; align-items: center; gap: 5px; min-width: 0; padding: 2px 3px; font-size: 11px; line-height: 1.4; border-radius: 3px; }
+.shanmao-row { display: flex; align-items: center; gap: 5px; min-width: 0; padding: 2px var(--shanmao-checkbox-inset); font-size: 11px; line-height: 1.4; border-radius: 3px; }
 .shanmao-row:hover { background: var(--el-fill-color-lighter); }
 .shanmao-unchecked { opacity: .65; }
 .shanmao-index { flex: 0 0 14px; text-align: right; color: var(--el-text-color-secondary); }
@@ -438,10 +438,10 @@ onScopeDispose(() => {
 .shanmao-row-state[data-state="failed"], .shanmao-row-state[data-state="blocked"], .shanmao-error { color: var(--el-color-danger, #d74747); }
 .shanmao-row-state[data-state="done"] { color: var(--el-color-success, #50923e); }
 .shanmao-empty { padding: 12px 0; text-align: center; color: var(--el-text-color-secondary); font-size: 11px; }
-.shanmao-filters { flex: none; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px clamp(7px, 5%, 12px); }
+.shanmao-filters { flex: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px; padding-inline: var(--shanmao-checkbox-inset); }
 .shanmao-chip { flex: none; display: inline-flex; gap: 4px; align-items: center; font-size: 11px; cursor: pointer; white-space: nowrap; }
 .shanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
-.shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 6px; }
+.shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 6px; padding-inline: var(--shanmao-checkbox-inset); }
 .shanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; white-space: nowrap; }
 .shanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-secondary); overflow-wrap: anywhere; }
 .shanmao-quote b { font-size: 11px; }
