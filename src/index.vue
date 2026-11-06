@@ -340,13 +340,13 @@ onScopeDispose(() => {
         <button class="shanmao-toggle nodrag" type="button" :aria-expanded="expanded" @click.stop="toggleExpanded">{{ expanded ? "收起" : "查看" }}</button>
       </div>
       <div v-if="expanded" class="shanmao-list">
-        <label v-for="(row, index) in rows" :key="row.id" class="shanmao-row nodrag" :class="{ 'shanmao-unchecked': !checked.has(row.id) }">
-          <input type="checkbox" :checked="checked.has(row.id)" :disabled="running" :aria-label="row.label" @change="toggle(row.id, checkedInput($event))">
+        <div v-for="(row, index) in rows" :key="row.id" class="shanmao-row" :class="{ 'shanmao-unchecked': !checked.has(row.id) }">
+          <input type="checkbox" class="nodrag" :checked="checked.has(row.id)" :disabled="running" :aria-label="row.label" @pointerdown.stop @mousedown.stop @change="toggle(row.id, checkedInput($event))">
           <span class="shanmao-index">{{ index + 1 }}</span>
           <span class="shanmao-kind" :data-kind="row.kind">{{ captions[row.kind][0] }}</span>
           <span class="shanmao-name" :title="[row.label, layout.get(row.id) && `第 ${layout.get(row.id)} 层`, row.model, row.params].filter(Boolean).join('\n')">{{ row.label }}</span>
           <span class="shanmao-row-state" :data-state="jobs[row.id]?.state" :title="jobs[row.id]?.detail">{{ displayStatus(row) }}</span>
-        </label>
+        </div>
         <div v-if="!rows.length" class="shanmao-empty">这张画布上没有可执行的节点</div>
       </div>
       <div class="shanmao-filters">
@@ -391,13 +391,13 @@ onScopeDispose(() => {
             全选（{{ dialogSelected.length }} / {{ dialogRows.length }}）
           </label>
           <div class="shanmao-dialog-list">
-            <label v-for="row in dialogRows" :key="row.id" class="shanmao-dialog-item">
-              <input type="checkbox" :checked="dialogChecks.has(row.id)" @change="toggleDialog(row.id, checkedInput($event))">
+            <div v-for="row in dialogRows" :key="row.id" class="shanmao-dialog-item">
+              <input type="checkbox" :checked="dialogChecks.has(row.id)" :aria-label="row.label" @change="toggleDialog(row.id, checkedInput($event))">
               <span>
                 <span>{{ captions[row.kind] }} · {{ row.label }}</span>
                 <small>{{ [row.model, row.params, row.hasResult ? '已有结果 · 执行将覆盖' : ''].filter(Boolean).join(' · ') }}</small>
               </span>
-            </label>
+            </div>
             <div v-for="name in ignored" :key="name" class="shanmao-dialog-muted">{{ name }} · 无生成动作</div>
             <div v-if="!dialogRows.length && !ignored.length" class="shanmao-dialog-muted">请先框选画布节点</div>
           </div>
@@ -438,7 +438,8 @@ onScopeDispose(() => {
 .shanmao-row-state[data-state="failed"], .shanmao-row-state[data-state="blocked"], .shanmao-error { color: var(--el-color-danger, #d74747); }
 .shanmao-row-state[data-state="done"] { color: var(--el-color-success, #50923e); }
 .shanmao-empty { padding: 12px 0; text-align: center; color: var(--el-text-color-secondary); font-size: 11px; }
-.shanmao-filters { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 5px 12px; }
+.shanmao-filters { flex: none; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 5px 4px; }
+.shanmao-filters .shanmao-chip { gap: 3px; }
 .shanmao-chip { flex: none; display: inline-flex; gap: 4px; align-items: center; font-size: 11px; cursor: pointer; white-space: nowrap; }
 .shanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
 .shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -459,7 +460,8 @@ onScopeDispose(() => {
 .shanmao-warning { color: var(--el-color-warning, #ad7317); font-weight: 700; }
 .shanmao-dialog p { margin: 6px 0 10px; }
 .shanmao-dialog-list { max-height: min(270px, 42vh); overflow-y: auto; margin: 6px 0; border-block: 1px solid var(--el-border-color-lighter, #eee); }
-.shanmao-dialog-item { display: flex; align-items: flex-start; gap: 6px; padding: 4px 0; overflow-wrap: anywhere; cursor: pointer; }
+.shanmao-dialog-item { display: flex; align-items: flex-start; gap: 6px; padding: 4px 0; overflow-wrap: anywhere; }
+label.shanmao-dialog-item, .shanmao-dialog-item input { cursor: pointer; }
 .shanmao-dialog-item input { margin: 2px 0 0; }
 .shanmao-dialog-item small { display: block; color: var(--el-text-color-secondary, #777); }
 .shanmao-dialog-muted { color: var(--el-text-color-secondary, #777); padding: 4px 0; overflow-wrap: anywhere; }
