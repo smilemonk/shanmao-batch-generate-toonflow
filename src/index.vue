@@ -443,7 +443,7 @@ onScopeDispose(() => {
 .shanmao-panel input[type="checkbox"] { flex: none; width: 12px; height: 12px; margin: 0; cursor: pointer; }
 .shanmao-notice { flex: none; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 6px; padding-inline: var(--shanmao-checkbox-inset); }
 .shanmao-notice strong { color: var(--el-color-warning, #e6a23c); font-size: 10px; white-space: nowrap; }
-.shanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-secondary); overflow-wrap: anywhere; }
+.shanmao-quote { flex: none; display: flex; gap: 4px; align-items: baseline; font-size: 10px; color: var(--el-text-color-primary, #fff); overflow-wrap: anywhere; }
 .shanmao-quote b { font-size: 11px; }
 .shanmao-quote .shanmao-amount { color: var(--el-color-danger, #f56c6c); }
 .shanmao-progress { flex: none; height: 3px; overflow: hidden; background: var(--el-fill-color-dark, #e6e8eb); border-radius: 4px; }
